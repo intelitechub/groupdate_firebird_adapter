@@ -1,7 +1,7 @@
 require_relative "lib/groupdate/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "groupdate"
+  spec.name          = "groupdate_firebird_adapter"
   spec.version       = Groupdate::VERSION
   spec.summary       = "The simplest way to group temporal data"
   spec.homepage      = "https://github.com/ankane/groupdate"
