@@ -22,15 +22,15 @@ module Groupdate
           when :custom
             ["", n_seconds, n_seconds]
           when :day
-            ["CAST(#{column}) - EXTRACT(HOUR FROM #{column}))/24 - EXTRACT(MINUTE FROM #{column}))/1440 - EXTRACT(SECOND FROM #{column}))/86400 AS DATE)"]
+            ["CAST(#{column} - EXTRACT(HOUR FROM #{column})/24 - EXTRACT(MINUTE FROM #{column})/1440 - EXTRACT(SECOND FROM #{column})/86400 AS DATE)"]
           when :month
-            ["CAST(((#{column} - (EXTRACT(DAY FROM #{column}) - 1)) - (EXTRACT(HOUR   FROM #{column}) / 24) - (EXTRACT(MINUTE FROM #{column}) / 1440) - (EXTRACT(SECOND FROM #{column}) / 86400)) AS DATE)"]
+            ["CAST(((#{column} - (EXTRACT(DAY FROM #{column}) - 1)) - (EXTRACT(HOUR FROM #{column}) / 24) - (EXTRACT(MINUTE FROM #{column}) / 1440) - (EXTRACT(SECOND FROM #{column}) / 86400)) AS DATE)"]
           when :quarter
-            ["CAST(((#{column} - (EXTRACT(MONTH FROM #{column}) - 1) % 3 * 30) - (EXTRACT(HOUR   FROM #{column}) / 24) - (EXTRACT(MINUTE FROM #{column}) / 1440) - (EXTRACT(SECOND FROM #{column}) / 86400)) AS DATE)"]
+            ["CAST(((#{column} - (EXTRACT(DAY FROM #{column}) - 1)) - (MOD(EXTRACT(MONTH FROM #{column}) - 1, 3) * 31) - (EXTRACT(HOUR   FROM #{column}) / 24) - (EXTRACT(MINUTE FROM #{column}) / 1440) - (EXTRACT(SECOND FROM #{column}) / 86400)) AS DATE)"]
           when :year
-            ["CAST(((#{column} - (EXTRACT(DAY FROM #{column}) - 1)) - (EXTRACT(HOUR   FROM #{column}) / 24) - (EXTRACT(MINUTE FROM #{column}) / 1440) - (EXTRACT(SECOND FROM #{column}) / 86400)) AS DATE)"]
+            ["CAST((#{column} - (EXTRACT(YEARDAY FROM #{column})) - (EXTRACT(HOUR   FROM #{column}) / 24) - (EXTRACT(MINUTE FROM #{column}) / 1440) - (EXTRACT(SECOND FROM #{column}) / 86400)) AS DATE)"]
           end
-
+          
         @relation.send(:sanitize_sql_array, query)
       end
 
